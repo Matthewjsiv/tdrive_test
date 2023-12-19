@@ -47,20 +47,25 @@ async function load_cloud(fpath)
 async function set3DPlot(chosen_index)
 {
 
-    //set plot layout
-    var trace1 = {
-        x: x_array,
-        y: y_array,
-        z: y_array,
-        mode: 'markers',
-        marker: {
-            size: 1,
-            opacity: 1,
-            color:y_array,
-            colorscale: 'viridis'
-        },
-        type: 'scatter3d'
-    };
+  let area = 0
+  // let pts_file = await fetch('https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/pc/0.json');
+  let cloud_dir = 'https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/pc/0.json';
+  new_cloud = await load_cloud(cloud_dir);
+  // console.log(new_cloud)
+  //set plot layout
+  var trace1 = {
+      x: new_cloud['x'],
+      y: new_cloud['y'],
+      z: new_cloud['z'],
+      mode: 'markers',
+      marker: {
+          size: 1,
+          opacity: 1,
+          color:new_cloud['z'],
+          colorscale: 'viridis'
+      },
+      type: 'scatter3d'
+  };
 
     var data = [trace1];
 
@@ -208,19 +213,19 @@ async function setTrajectoryPlot(chosen_index)
       let area = data.points[0].pointNumber;
 
       // let pts_file = await fetch('https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/pc/0.json');
-
-      new_cloud = await load_cloud('https://matthewjsiv.github.io/tdrive_test.github.io/data/trajectory_data/x.json');
-      console.log(new_cloud)
+      let cloud_dir = 'https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/pc/0.json';
+      new_cloud = await load_cloud(cloud_dir);
+      // console.log(new_cloud)
       //set plot layout
       var trace1 = {
-          x: new_cloud,
-          y: new_cloud,
-          z: new_cloud,
+          x: new_cloud['x'],
+          y: new_cloud['y'],
+          z: new_cloud['z'],
           mode: 'markers',
           marker: {
               size: 1,
               opacity: 1,
-              color:new_cloud,
+              color:new_cloud['z'],
               colorscale: 'viridis'
           },
           type: 'scatter3d'
@@ -279,7 +284,7 @@ async function setTrajectoryPlot(chosen_index)
 
 
 
-      Plotly.newPlot('myPlot3D', data, layout);
+      Plotly.react('myPlot3D', data, layout);
         });
 
 };
