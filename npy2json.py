@@ -1,6 +1,7 @@
 import numpy as np
 import json
 import os
+import matplotlib.pyplot as plt
 
 prefix = 'data/'
 dirs = ['0','1']
@@ -16,6 +17,12 @@ for d in dirs:
                 # print(file)
                 inname = os.path.join(subdir,file)
                 points = np.load(inname)
+                if 'cloud' in data:
+                    # print('cropping')
+                    points = points[np.linalg.norm(points,axis=1) < 50,:]
+                    # plt.plot(points[:,0],points[:,1],'.')
+                    # print(np.min(points,axis=0),np.max(points,axis=0))
+                    # plt.show()
                 # print(pts.shape)
                 outname = os.path.join(subdir,file.replace('.npy','.json'))
                 points_list = {"x": points[:,0].tolist(), "y": points[:,1].tolist(), "z": points[:,2].tolist()}

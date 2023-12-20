@@ -325,6 +325,13 @@
         </div>
       </div>
 
+      <div class="column has-text-centered">
+        <div class="content">
+          <h2 class="title is-4">Odometry</h2>
+          <div id="OdomPlot"></div>
+        </div>
+      </div>
+
     </div>
 
     <div class="columns is-centered">
@@ -332,13 +339,22 @@
       <div class="column has-text-centered">
         <div class="content">
           <h2 class="title is-4">FPV Image</h2>
-        <img id="q_image" src = "data/0/image_left_color/0.png" width="500">
+        <img id="fpv_image" src = "data/0/image_left_color/0.png" width="500">
+        </div>
+      </div>
+
+      <div class="column has-text-centered">
+        <div class="content">
+          <h2 class="title is-4">RGB BEV Image</h2>
+        <img id="bev_image" src = "data/0/rgb_map/0.png" width="500">
         </div>
       </div>
 
       <script src = "demo/plot.js"></script>
 
     </div>
+
+
 
     <p></p>
     </div>

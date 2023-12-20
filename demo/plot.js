@@ -91,6 +91,102 @@ async function set3DPlot(chosen_index)
             showline: false,
             autotick: false,
             ticks: '',
+            visible:false
+            // showticklabels: false
+          },
+          yaxis: {
+            autorange: true,
+            showgrid: false,
+            zeroline: false,
+            showline: false,
+            autotick: false,
+            ticks: '',
+            visible:false
+            // showticklabels: false
+          },
+          zaxis: {
+            range: [-10,120],
+            showgrid: false,
+            zeroline: false,
+            showline: false,
+            autotick: false,
+            ticks: '',
+            visible:false
+            // showticklabels: false
+          }
+
+        }
+    };
+
+
+
+    Plotly.newPlot('myPlot3D', data, layout);
+
+}
+
+async function setOdomPlot(chosen_index)
+{
+
+  let area = 0
+  // let pts_file = await fetch('https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/pc/0.json');
+  let so_dir = 'https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/super_odom/odometry.json';
+  so_traj = await load_cloud(so_dir);
+
+  let tartanvo_dir = 'https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/tartanvo_odom/odometry.json';
+  tartanvo_traj = await load_cloud(tartanvo_dir);
+  // console.log(new_cloud)
+  //set plot layout
+  var trace1 = {
+      x: so_traj['x'],
+      y: so_traj['y'],
+      z: so_traj['z'],
+      mode: 'markers',
+      marker: {
+          size: 1,
+          opacity: 1
+      },
+      name: "Super Odometry",
+      type: 'scatter3d'
+  };
+
+  var trace2 = {
+      x: tartanvo_traj['x'],
+      y: tartanvo_traj['y'],
+      z: tartanvo_traj['z'],
+      mode: 'markers',
+      marker: {
+          size: 1,
+          opacity: 1
+      },
+      name: "TartanVO",
+      type: 'scatter3d'
+  };
+
+    var data = [trace1, trace2];
+
+
+    var layout = {
+        autosize: true,
+        width: 500,
+        height: 400,
+        margin: {
+            l: 0,
+            r: 0,
+            b: 0,
+            t: 0,
+            pad: 0
+          },
+        title:'Odometry',
+        hovermode:'closest',
+        showlegend: true,
+        scene: {
+        xaxis: {
+            autorange: true,
+            showgrid: false,
+            zeroline: false,
+            showline: false,
+            autotick: false,
+            ticks: '',
             // visible:false
             // showticklabels: false
           },
@@ -120,9 +216,11 @@ async function set3DPlot(chosen_index)
 
 
 
-    Plotly.newPlot('myPlot3D', data, layout);
+    Plotly.newPlot('OdomPlot', data, layout);
 
 }
+
+
 
 async function setTrajectoryPlot(chosen_index)
 {
@@ -199,9 +297,22 @@ async function setTrajectoryPlot(chosen_index)
 
         let dir = "data/"+area.toString();
 
-        const q_image = document.getElementById("q_image");
+        const q_image = document.getElementById("fpv_image");
 
         let fpv_path = dir + "/image_left_color/0.png";
+        q_image.src =  fpv_path;
+        // db_image.style.display = "block";
+    });
+
+    myPlot.on('plotly_click', function(data)
+    {
+        let area = data.points[0].pointNumber;
+
+        let dir = "data/"+area.toString();
+
+        const q_image = document.getElementById("bev_image");
+
+        let fpv_path = dir + "/rgb_map/0.png";
         q_image.src =  fpv_path;
         // db_image.style.display = "block";
     });
@@ -255,7 +366,7 @@ async function setTrajectoryPlot(chosen_index)
               showline: false,
               autotick: false,
               ticks: '',
-              // visible:false
+              visible:false
               // showticklabels: false
             },
             yaxis: {
@@ -265,17 +376,18 @@ async function setTrajectoryPlot(chosen_index)
               showline: false,
               autotick: false,
               ticks: '',
-              // visible:false
+              visible:false
               // showticklabels: false
             },
             zaxis: {
-              autorange: true,
+              // autorange: true,
+              range: [-10,120],
               showgrid: false,
               zeroline: false,
               showline: false,
               autotick: false,
               ticks: '',
-              // visible:false
+              visible:false
               // showticklabels: false
             }
 
@@ -310,6 +422,7 @@ y_array = returned_arr[1];
 //default trajectory
 setTrajectoryPlot(1);
 set3DPlot(1);
+setOdomPlot(1);
 }
 
 setup_demo();
