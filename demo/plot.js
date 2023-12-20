@@ -49,7 +49,7 @@ async function set3DPlot(chosen_index)
 
   let area = 0
   // let pts_file = await fetch('https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/pc/0.json');
-  let cloud_dir = 'https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/pc/0.json';
+  let cloud_dir = 'https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/full_cloud/0.json';
   new_cloud = await load_cloud(cloud_dir);
   // console.log(new_cloud)
   //set plot layout
@@ -143,8 +143,8 @@ async function setTrajectoryPlot(chosen_index)
 
     var layout = {
         autosize: true,
-        width: 500,
-        height: 400,
+        width: 543,
+        height: 744,
         margin: {
             l: 0,
             r: 0,
@@ -157,11 +157,11 @@ async function setTrajectoryPlot(chosen_index)
                 "source": "https://matthewjsiv.github.io/tdrive_test.github.io/data/gascola_earth.png",
                 "xref": "x",
                 "yref": "y",
-                "x": 0,
-                "y": 744,
-                "sizex": 544,
+                "x": 75,
+                "y": 514,
+                "sizex": 443,
                 "sizey": 744,
-                "sizing": "stretch",
+                "sizing": "contain",
                 "opacity": 1,
                 "layer": "below"
             },
@@ -201,7 +201,7 @@ async function setTrajectoryPlot(chosen_index)
 
         const q_image = document.getElementById("q_image");
 
-        let fpv_path = dir + "/fpv/0.png";
+        let fpv_path = dir + "/image_left_color/0.png";
         q_image.src =  fpv_path;
         // db_image.style.display = "block";
     });
@@ -213,7 +213,7 @@ async function setTrajectoryPlot(chosen_index)
       let area = data.points[0].pointNumber;
 
       // let pts_file = await fetch('https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/pc/0.json');
-      let cloud_dir = 'https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/pc/0.json';
+      let cloud_dir = 'https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/full_cloud/0.json';
       new_cloud = await load_cloud(cloud_dir);
       // console.log(new_cloud)
       //set plot layout
