@@ -227,17 +227,33 @@ async function setTrajectoryPlot(chosen_index)
 
     //set plot layout
     var trace1 = {
-        x: x_array,
-        y: y_array,
+        // x: x_array,
+        // y: y_array,
+        x: [0,544],
+        y: [0,744],
+        mode: 'markers',
+        marker: {
+            size: 12,
+            opacity: 0,
+            colorscale: 'Greens',
+        },
+        name: "",
+    };
+
+    var trace2 = {
+        // x: x_array,
+        // y: y_array,
+        x: [220,260],
+        y: [544,100],
         mode: 'markers',
         marker: {
             size: 12,
             opacity: 1,
-            colorscale: 'Greens',
-        }
+        },
+        name: ""
     };
 
-    var data = [trace1];
+    var data = [trace1,trace2];
 
     var layout = {
         autosize: true,
@@ -255,32 +271,36 @@ async function setTrajectoryPlot(chosen_index)
                 "source": "https://matthewjsiv.github.io/tdrive_test.github.io/data/gascola_earth.png",
                 "xref": "x",
                 "yref": "y",
-                "x": 75,
-                "y": 514,
-                "sizex": 443,
+                "x": 0,
+                "y": 744,
+                "sizex": 543,
                 "sizey": 744,
-                "sizing": "contain",
+                "sizing": "stretch",
                 "opacity": 1,
                 "layer": "below"
             },
           ],
         title:'Trajectory',
         hovermode:'closest',
+        showlegend: false,
+        // hoverdistance: 1000,
         xaxis: {
             autorange: true,
+            // range: [0,543],
             showgrid: false,
             zeroline: false,
             showline: false,
-            autotick: true,
+            autotick: false,
             ticks: '',
             showticklabels: false
           },
           yaxis: {
             autorange: true,
+            // range: [0,744],
             showgrid: false,
             zeroline: false,
             showline: false,
-            autotick: true,
+            autotick: false,
             ticks: '',
             showticklabels: false
           }
@@ -294,6 +314,7 @@ async function setTrajectoryPlot(chosen_index)
     myPlot.on('plotly_click', function(data)
     {
         let area = data.points[0].pointNumber;
+        console.log(area)
 
         let dir = "data/"+area.toString();
 
@@ -301,7 +322,7 @@ async function setTrajectoryPlot(chosen_index)
 
         let fpv_path = dir + "/image_left_color/0.png";
         q_image.src =  fpv_path;
-        // db_image.style.display = "block";
+        q_image.style.display = "block";
     });
 
     myPlot.on('plotly_click', function(data)
@@ -398,6 +419,100 @@ async function setTrajectoryPlot(chosen_index)
 
       Plotly.react('myPlot3D', data, layout);
         });
+
+        myPlot.on('plotly_click',async function(data){
+
+          let area = data.points[0].pointNumber;
+          // let pts_file = await fetch('https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/pc/0.json');
+          let so_dir = 'https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/super_odom/odometry.json';
+          so_traj = await load_cloud(so_dir);
+
+          let tartanvo_dir = 'https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/tartanvo_odom/odometry.json';
+          tartanvo_traj = await load_cloud(tartanvo_dir);
+          // console.log(new_cloud)
+          //set plot layout
+          var trace1 = {
+              x: so_traj['x'],
+              y: so_traj['y'],
+              z: so_traj['z'],
+              mode: 'markers',
+              marker: {
+                  size: 1,
+                  opacity: 1
+              },
+              name: "Super Odometry",
+              type: 'scatter3d'
+          };
+
+          var trace2 = {
+              x: tartanvo_traj['x'],
+              y: tartanvo_traj['y'],
+              z: tartanvo_traj['z'],
+              mode: 'markers',
+              marker: {
+                  size: 1,
+                  opacity: 1
+              },
+              name: "TartanVO",
+              type: 'scatter3d'
+          };
+
+            var data = [trace1, trace2];
+
+
+            var layout = {
+                autosize: true,
+                width: 500,
+                height: 400,
+                margin: {
+                    l: 0,
+                    r: 0,
+                    b: 0,
+                    t: 0,
+                    pad: 0
+                  },
+                title:'Odometry',
+                hovermode:'closest',
+                showlegend: true,
+                scene: {
+                xaxis: {
+                    autorange: true,
+                    showgrid: false,
+                    zeroline: false,
+                    showline: false,
+                    autotick: false,
+                    ticks: '',
+                    // visible:false
+                    // showticklabels: false
+                  },
+                  yaxis: {
+                    autorange: true,
+                    showgrid: false,
+                    zeroline: false,
+                    showline: false,
+                    autotick: false,
+                    ticks: '',
+                    // visible:false
+                    // showticklabels: false
+                  },
+                  zaxis: {
+                    autorange: true,
+                    showgrid: false,
+                    zeroline: false,
+                    showline: false,
+                    autotick: false,
+                    ticks: '',
+                    // visible:false
+                    // showticklabels: false
+                  }
+
+                }
+            };
+
+
+
+            Plotly.newPlot('OdomPlot', data, layout);
+            });
 
 };
 
