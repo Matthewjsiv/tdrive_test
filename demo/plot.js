@@ -44,6 +44,82 @@ async function load_cloud(fpath)
 }
 
 
+async function setGridMap(chosen_index)
+{
+
+  let area = 0
+  // let pts_file = await fetch('https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/pc/0.json');
+  let cloud_dir = 'https://matthewjsiv.github.io/tdrive_test.github.io/data/' + area.toString() + '/full_cloud/0.json';
+  new_cloud = await load_cloud(cloud_dir);
+  // console.log(new_cloud)
+  //set plot layout
+  var trace1 = {
+      z: [[1.0,1.0,1.0,1.0,1.0,1.0,1.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0],[1.0,1.0,1.0,1.0,1.0,1.0,1.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0],[1.0,1.0,1.0,1.0,1.0,1.0,1.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0]],
+      type: 'surface',
+      colorscale: 'Viridis',
+      showscale: false
+  };
+
+    var data = [trace1];
+
+
+    var layout = {
+        autosize: true,
+        width: 250,
+        height: 250,
+        margin: {
+            l: 0,
+            r: 0,
+            b: 0,
+            t: 0,
+            pad: 0
+          },
+        title:'GroundPlane',
+        hovermode:false,
+        scene: {
+          camera: {
+            // center:{x:0,y:0,z:-.3},
+            eye:{x:-1.35,y:0,z:.75},
+            // up:{x:-.8,y:0,z:1}
+          },
+        xaxis: {
+            autorange: true,
+            showgrid: false,
+            zeroline: false,
+            showline: false,
+            autotick: false,
+            ticks: '',
+            visible:false,
+            showspikes:false
+            // showticklabels: false
+          },
+          yaxis: {
+            autorange: true,
+            showgrid: false,
+            zeroline: false,
+            showline: false,
+            autotick: false,
+            ticks: '',
+            visible:false,
+            showspikes:false
+            // showticklabels: false
+          },
+          zaxis: {
+            range: [-10,10],
+            showgrid: false,
+            zeroline: false,
+            showline: false,
+            autotick: false,
+            ticks: '',
+            visible:false,
+            showspikes:false
+            // showticklabels: false
+          }
+        }
+    };
+    Plotly.newPlot('GroundPlane', data, layout);
+}
+
 async function set3DPlot(chosen_index)
 {
 
@@ -59,10 +135,13 @@ async function set3DPlot(chosen_index)
       z: new_cloud['z'],
       mode: 'markers',
       marker: {
+          cmax:5.0,
+          cmin:-5.0,
+          cmid:-3.0,
           size: 1,
-          opacity: 1,
+          opacity: .8,
           color:new_cloud['z'],
-          colorscale: 'viridis'
+          colorscale: 'Viridis',
       },
       type: 'scatter3d'
   };
@@ -73,7 +152,7 @@ async function set3DPlot(chosen_index)
     var layout = {
         autosize: true,
         width: 300,
-        height: 200,
+        height: 300,
         margin: {
             l: 0,
             r: 0,
@@ -82,8 +161,13 @@ async function set3DPlot(chosen_index)
             pad: 0
           },
         title:'Pointcloud',
-        hovermode:'closest',
+        hovermode:false,
         scene: {
+          camera: {
+            center:{x:0,y:0,z:-.3},
+            eye:{x:-.35,y:0,z:-.25},
+            // up:{x:-.8,y:0,z:1}
+          },
         xaxis: {
             autorange: true,
             showgrid: false,
@@ -91,7 +175,8 @@ async function set3DPlot(chosen_index)
             showline: false,
             autotick: false,
             ticks: '',
-            visible:false
+            visible:false,
+            showspikes:false
             // showticklabels: false
           },
           yaxis: {
@@ -101,7 +186,8 @@ async function set3DPlot(chosen_index)
             showline: false,
             autotick: false,
             ticks: '',
-            visible:false
+            visible:false,
+            showspikes:false
             // showticklabels: false
           },
           zaxis: {
@@ -111,7 +197,8 @@ async function set3DPlot(chosen_index)
             showline: false,
             autotick: false,
             ticks: '',
-            visible:false
+            visible:false,
+            showspikes:false
             // showticklabels: false
           }
 
@@ -180,9 +267,10 @@ async function setOdomPlot(chosen_index)
         hovermode:'closest',
         showlegend: true,
         scene: {
+
         xaxis: {
             autorange: true,
-            showgrid: false,
+            // showgrid: false,
             zeroline: false,
             showline: false,
             autotick: false,
@@ -192,7 +280,7 @@ async function setOdomPlot(chosen_index)
           },
           yaxis: {
             autorange: true,
-            showgrid: false,
+            // showgrid: false,
             zeroline: false,
             showline: false,
             autotick: false,
@@ -202,7 +290,7 @@ async function setOdomPlot(chosen_index)
           },
           zaxis: {
             autorange: true,
-            showgrid: false,
+            // showgrid: false,
             zeroline: false,
             showline: false,
             autotick: false,
@@ -247,8 +335,8 @@ async function setTrajectoryPlot(chosen_index)
         y: [544,100],
         mode: 'markers',
         marker: {
-            size: 12,
-            opacity: 1,
+            size: 22,
+            opacity: .6,
         },
         name: ""
     };
@@ -355,10 +443,13 @@ async function setTrajectoryPlot(chosen_index)
           z: new_cloud['z'],
           mode: 'markers',
           marker: {
-              size: 1,
-              opacity: 1,
-              color:new_cloud['z'],
-              colorscale: 'viridis'
+            cmax:5.0,
+            cmin:-5.0,
+            cmid:-3.0,
+            size: 1,
+            opacity: .8,
+            color:new_cloud['z'],
+            colorscale: 'Viridis',
           },
           type: 'scatter3d'
       };
@@ -369,7 +460,7 @@ async function setTrajectoryPlot(chosen_index)
       var layout = {
           autosize: true,
           width: 300,
-          height: 200,
+          height: 300,
           margin: {
               l: 0,
               r: 0,
@@ -380,6 +471,11 @@ async function setTrajectoryPlot(chosen_index)
           title:'Pointcloud',
           hovermode:'closest',
           scene: {
+            camera: {
+              center:{x:0,y:0,z:-.3},
+              eye:{x:-.35,y:0,z:-.25},
+              // up:{x:-.8,y:0,z:1}
+            },
           xaxis: {
               autorange: true,
               showgrid: false,
@@ -387,7 +483,8 @@ async function setTrajectoryPlot(chosen_index)
               showline: false,
               autotick: false,
               ticks: '',
-              visible:false
+              visible:false,
+              showspikes:false
               // showticklabels: false
             },
             yaxis: {
@@ -397,7 +494,8 @@ async function setTrajectoryPlot(chosen_index)
               showline: false,
               autotick: false,
               ticks: '',
-              visible:false
+              visible:false,
+              showspikes:false
               // showticklabels: false
             },
             zaxis: {
@@ -408,7 +506,8 @@ async function setTrajectoryPlot(chosen_index)
               showline: false,
               autotick: false,
               ticks: '',
-              visible:false
+              visible:false,
+              showspikes:false
               // showticklabels: false
             }
 
@@ -477,7 +576,7 @@ async function setTrajectoryPlot(chosen_index)
                 scene: {
                 xaxis: {
                     autorange: true,
-                    showgrid: false,
+                    // showgrid: false,
                     zeroline: false,
                     showline: false,
                     autotick: false,
@@ -487,7 +586,7 @@ async function setTrajectoryPlot(chosen_index)
                   },
                   yaxis: {
                     autorange: true,
-                    showgrid: false,
+                    // showgrid: false,
                     zeroline: false,
                     showline: false,
                     autotick: false,
@@ -497,7 +596,7 @@ async function setTrajectoryPlot(chosen_index)
                   },
                   zaxis: {
                     autorange: true,
-                    showgrid: false,
+                    // showgrid: false,
                     zeroline: false,
                     showline: false,
                     autotick: false,
@@ -538,6 +637,7 @@ y_array = returned_arr[1];
 setTrajectoryPlot(1);
 set3DPlot(1);
 setOdomPlot(1);
+setGridMap(1);
 }
 
 setup_demo();
