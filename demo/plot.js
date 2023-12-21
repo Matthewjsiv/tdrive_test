@@ -72,8 +72,8 @@ async function set3DPlot(chosen_index)
 
     var layout = {
         autosize: true,
-        width: 500,
-        height: 400,
+        width: 300,
+        height: 200,
         margin: {
             l: 0,
             r: 0,
@@ -167,8 +167,8 @@ async function setOdomPlot(chosen_index)
 
     var layout = {
         autosize: true,
-        width: 500,
-        height: 400,
+        width: 300,
+        height: 200,
         margin: {
             l: 0,
             r: 0,
@@ -257,8 +257,8 @@ async function setTrajectoryPlot(chosen_index)
 
     var layout = {
         autosize: true,
-        width: 543,
-        height: 744,
+        width: 400,
+        height: 500,
         margin: {
             l: 0,
             r: 0,
@@ -368,8 +368,8 @@ async function setTrajectoryPlot(chosen_index)
 
       var layout = {
           autosize: true,
-          width: 500,
-          height: 400,
+          width: 300,
+          height: 200,
           margin: {
               l: 0,
               r: 0,
@@ -462,8 +462,8 @@ async function setTrajectoryPlot(chosen_index)
 
             var layout = {
                 autosize: true,
-                width: 500,
-                height: 400,
+                width: 300,
+                height: 200,
                 margin: {
                     l: 0,
                     r: 0,
